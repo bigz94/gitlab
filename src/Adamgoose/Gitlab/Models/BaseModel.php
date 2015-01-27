@@ -37,9 +37,27 @@ abstract class BaseModel extends Client implements JsonableInterface, ArrayableI
    */
   public static function find($id)
   {
-    $model = 'Adamgoose\Gitlab\Models\\'.class_basename(get_called_class());
-
+    $model = self::Model();
     return new $model(with(new Client)->fetch($model::$path.$id));
+  }
+
+  /** 
+   * Get all
+   */
+  public static function all()
+  {
+    $model = self::Model();
+    $client = with(new Client);
+
+    return $client->getModels(class_basename(get_called_class()), $client->fetch($model::$path));
+  }
+
+  /**
+   * Get Using Class
+   * @return Model Get Model Class
+   */
+  public static function Model(){
+    return 'Adamgoose\Gitlab\Models\\'.class_basename(get_called_class());
   }
 
   /**

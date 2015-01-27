@@ -1,6 +1,6 @@
 <?php namespace Adamgoose\Gitlab\Models;
 
-use Gitlab\Client;
+use Adamgoose\Gitlab\Client;
 use Illuminate\Support\Collection;
 
 class Project extends BaseModel {
@@ -10,6 +10,20 @@ class Project extends BaseModel {
    * @var string
    */
   public static $path = 'projects/';
+
+  /**
+   * All Projects as Admin
+   */
+  public static function allAdmin(){
+    return with(new Client)->getModels('project', with(new Client)->fetch('projects/all'));
+  }
+
+  /**
+   * Get all owned Projects
+   */
+  public static function owned(){
+    return with(new Client)->getModels('project', with(new Client)->fetch('projects/owned'));
+  }
 
   /**
    * Events
